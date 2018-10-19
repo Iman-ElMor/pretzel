@@ -1,5 +1,3 @@
-'use strict';
-
 var fs = require('fs');
 var Promise = require('bluebird')
 
@@ -74,6 +72,35 @@ function createChunked (data, model, len) {
   // })
 }
 
+
+/**
+ * If dataset has a parent defined by name then search and replace with actual parent dataset id
+ * @param {Object} data - The dataset object to be processed
+ * @param {Object} models - Loopback database models
+ */
+function checkDatasetParent(data, models, options) {
+  if (data.parent) {
+    return models.Dataset.find({'where': {'name': data.parent}}, options).then(function(datasets) {
+      delete data.parent;
+      if (datasets.length == 0) {
+        throw Error('Parent dataset not found');
+      }
+      // prioritize public datasets
+      datasets.forEach(function(ds) {
+        if (ds.public) {
+          data.parentId = ds.id;
+          return data;
+        }
+      });
+      data.parentId = datasets[0].id;
+      return data;
+    });
+  } else {
+    // return new promise with unchanged data
+    return {then: function(cb) { return cb(data) }};
+  }
+}
+
 /**
  * Send a json dataset structure to the database
  * @param {Object} data - The dataset object to be processed
@@ -86,10 +113,14 @@ exports.uploadDataset = (data, models, options, cb) => {
   let json_intervals = []
   let json_features = []
 
-  //create dataset
-  models.Dataset.create(data, options)
-  .then(function(dataset) {
-    dataset_id = dataset.name
+  // search for parent
+  checkDatasetParent(data, models, options)
+  .then(function(data) {
+  
+    //create dataset
+    return models.Dataset.create(data, options)
+  }).then(function(dataset) {
+    dataset_id = dataset.id
     if (dataset.__cachedRelations.blocks) {
       dataset.__cachedRelations.blocks.forEach(function(json_block) {
         json_block.datasetId = dataset.id

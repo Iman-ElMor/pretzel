@@ -5,8 +5,8 @@ import Record from './record';
 
 export default Record.extend({
   name: attr('string'),
-  parent: DS.belongsTo('dataset', {inverse: 'children'}),
-  children: DS.hasMany('dataset', {inverse: 'parent'}),
+  parentId: DS.belongsTo('dataset', {inverse: 'children'}),
+  children: DS.hasMany('dataset', {inverse: 'parentId'}),
   blocks: DS.hasMany('block', { async: false }),
   type: attr('string'),
   tags: attr('array'),

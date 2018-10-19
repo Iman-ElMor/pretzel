@@ -73,9 +73,9 @@ export default DS.Model.extend({
     let 
       referenceBlock,
     dataset = this.get('datasetId'),
-    reference = dataset && dataset.get('parent'),
+    reference = dataset && dataset.get('parentId'),
     /** reference dataset */
-    parent = dataset && dataset.get('parent'),
+    parent = dataset && dataset.get('parentId'),
     parentName = parent && parent.get('name');  // e.g. "myGenome"
 
     console.log('referenceDatasetName', dataset, reference, parent, parentName, parent && parent.get('id'));
@@ -92,10 +92,10 @@ export default DS.Model.extend({
       referenceBlock,
     scope = this.get('scope'),
     dataset = this.get('datasetId'),
-    reference = dataset && dataset.get('parent'),
+    reference = dataset && dataset.get('parentId'),
     namespace = this.get('namespace'),
     /** reference dataset */
-    parent = dataset && dataset.get('parent'),
+    parent = dataset && dataset.get('parentId'),
     parentName = parent && parent.get('name');  // e.g. "myGenome"
 
     console.log('referenceBlock', scope, dataset, reference, namespace, parent, parentName, parent && parent.get('id'));
