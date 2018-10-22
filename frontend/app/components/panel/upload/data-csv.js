@@ -20,7 +20,8 @@ export default UploadBase.extend({
     }));
     $.each(datasets, function (i, item) {
       $('#dataset').append($('<option>', {
-          text : item.get('name')
+          text: item.get('name'),
+          value: item.get('id')
       }));
     });
     if (id) {
@@ -36,7 +37,8 @@ export default UploadBase.extend({
     }));
     $.each(datasets, function (i, item) {
       $('#parent').append($('<option>', {
-          text : item.get('name')
+          text: item.get('name'),
+          value: item.get('id')
       }));
     });
   },
@@ -151,14 +153,14 @@ export default UploadBase.extend({
             + " (" + duplicates.join(', ') + ") already exist in the selected dataset and will be overwritten by the new data";
           }
 
-          if (map.get('parent').get('name')) {
-            parent = map.get('parent');
+          if (map.get('parentId').get('name')) {
+            parent = map.get('parentId');
           }
         } else if (selectedMap == 'new') {
           let parent_id = $("#parent").val();
           if (parent_id.length > 0) {
             maps.forEach(function(m) {
-              if (m.get('name') == parent_id) {
+              if (m.get('id') == parent_id) {
                 parent = m;
               }
             });
@@ -220,7 +222,7 @@ export default UploadBase.extend({
           let parent = null;
           if (parentId.length > 0) {
             datasets.forEach(function(dataset) {
-              if (dataset.get('name') == parentId) {
+              if (dataset.get('id') == parentId) {
                 parent = dataset;
               }
             });
@@ -231,7 +233,7 @@ export default UploadBase.extend({
             blocks: []
           });
           if (parent != null) {
-            newDataset.set('parent', parent);
+            newDataset.set('parentId', parent);
           }
           newDataset.save().then(function() {
             that.loadDatasets(newDataset.id)

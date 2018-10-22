@@ -5,8 +5,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "required": true,
-      "id": true
+      "required": true
     },
     "tags": {
       "type": ["string"]
@@ -31,7 +30,7 @@
     "children": {
       "type": "hasMany",
       "model": "Dataset",
-      "foreignKey": "parent"
+      "foreignKey": "parentId"
     }
   },
   "acls": [

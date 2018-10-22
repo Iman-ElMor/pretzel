@@ -174,7 +174,7 @@ export default Service.extend(Ember.Evented, {
     let match = 
       (d != d2) &&  // not self
       /* ! a.parent &&*/
-      ad && (ad.get('parent').get('id') === dataset.get('id')) &&
+      ad && (ad.get('parentId').get('id') === dataset.get('id')) &&
       (dataBlock.get('scope') == block.get('scope'));
     if (trace_block > 1)
       console.log(

@@ -679,7 +679,7 @@ export default Ember.Component.extend(Ember.Evented, {
         z[axis] = c;
         let dataset = c.dataset,
         datasetName = dataset && dataset.get('name'),
-        parent = dataset && dataset.get('parent'),
+        parent = dataset && dataset.get('parentId'),
         parentName = parent  && parent.get('name')
         ;
         if (oa.datasets[datasetName] === undefined)
@@ -1105,7 +1105,7 @@ export default Ember.Component.extend(Ember.Evented, {
       {
         let zd = oa.z[d],
         dataset = zd.dataset,
-        parent = dataset && dataset.get('parent'),
+        parent = dataset && dataset.get('parentId'),
         parentName = parent && parent.get('name'),  // e.g. "myGenome"
         parentId = parent && parent.get('id'),  // same as name
         namespace = dataset && dataset.get('namespace'),
